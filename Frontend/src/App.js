@@ -15,15 +15,20 @@ const App = () => {
           <div className='collapse navbar-collapse'>
             <ul className='navbar-nav'>
               <li className='nav-item'>
-                <Link className='nav-link' to='/login'>
-                  Login
+                <Link className='nav-link' to='/signin'>
+                  Sign In
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to='/signup'>
+                  Sign Up
                 </Link>
               </li>
             </ul>
           </div>
         </nav>
         <div>
-          <h1>Welcome to My App</h1>
+          <h1>Welcome to My User Authentication App</h1>
           <RoutesComponent />
         </div>
       </div>

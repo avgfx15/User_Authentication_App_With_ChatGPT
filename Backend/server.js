@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 const userRoutes = require("./routes/userRoutes");
 const dbConnect = require("./DB/dbConnect");
@@ -9,6 +10,17 @@ dotenv.config(); // Load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+
+// Use CORS middleware to allow requests from your frontend
+const corsOptions = {
+  origin: "http://localhost:3000", // Only allow requests from this domain
+  methods: "GET,POST,PUT,DELETE",             // Allow only these methods (optional)
+  allowedHeaders: "Content-Type, Authorization", // Specify allowed headers (optional)
+};
+
+app.use(cors(corsOptions));
+
 
 // Connect to MongoDB
 dbConnect();
