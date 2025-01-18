@@ -5,6 +5,8 @@ import Home from "./Home";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import ProtectedRoute from "./ProtectedRoute";
+import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassword";
 
 
 const RoutesComponent = () => {
@@ -19,6 +21,8 @@ const RoutesComponent = () => {
           </ProtectedRoute>
         }
       />
+       <Route path="/forgot-password" element={<ForgotPassword />} />
+       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
 

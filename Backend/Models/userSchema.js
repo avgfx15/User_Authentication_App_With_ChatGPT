@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 // Define the User schema
 const userSchema = new mongoose.Schema(
@@ -10,20 +10,23 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
-      match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"], // Email validation
+      match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address'], // Email validation
     },
     password: {
       type: String,
       required: true,
-      minlength: [6, "Password must be at least 6 characters long"],
+      minlength: [6, 'Password must be at least 6 characters long'],
       validate: {
         validator: function (value) {
           // Ensure password has both letters and numbers
           return /[A-Za-z]/.test(value) && /\d/.test(value);
         },
-        message: "Password must be alphanumeric and contain both letters and numbers",
+        message:
+          'Password must be alphanumeric and contain both letters and numbers',
       },
     },
+    resetPasswordToken: { type: String },
+    resetPasswordExpiry: { type: Date },
   },
   {
     timestamps: true, // Automatically add `createdAt` and `updatedAt` fields
@@ -31,16 +34,17 @@ const userSchema = new mongoose.Schema(
 );
 
 // Pre-save hook to hash password before saving
-userSchema.pre("save", async function (next) {
+userSchema.pre('save', async function (next) {
   try {
     // Check if password is modified
-    if (!this.isModified("password")) {
+    if (!this.isModified('password')) {
       return next();
     }
 
     // Hash the password
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
+
     next();
   } catch (error) {
     next(error);
@@ -48,6 +52,6 @@ userSchema.pre("save", async function (next) {
 });
 
 // Create and export the User model
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

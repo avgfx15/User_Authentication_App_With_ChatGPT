@@ -4,7 +4,7 @@ import { signinUser } from '../features/authSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -107,6 +107,10 @@ const SignIn = () => {
               {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
+          <p>
+            <Link to='/forgot-password'>Forgot Password?</Link>{' '}
+            {/* Link to Forgot Password page */}
+          </p>
         </div>
       </div>
     </div>
