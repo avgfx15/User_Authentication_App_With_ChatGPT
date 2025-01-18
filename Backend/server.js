@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const userRoutes = require("./routes/userRoutes");
 const dbConnect = require("./DB/dbConnect");
+const protectedRouter = require("./routes/protectedRoutes");
 
 
 dotenv.config(); // Load environment variables
@@ -30,6 +31,7 @@ app.use(express.json());
 
 // API routes
 app.use("/api/users", userRoutes);
+app.use("/", protectedRouter);
 
 // Default route
 app.get("/", (req, res) => {

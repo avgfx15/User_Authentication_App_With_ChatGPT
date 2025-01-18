@@ -1,34 +1,27 @@
 // src/App.js
 import React from 'react';
-import {  Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import RoutesComponent from './Components/RoutesComponent';
+import Navbar from './Components/Navbar';
 
 const App = () => {
+
+  const navigate = useNavigate();
+  const authToken = localStorage.getItem("token");
+
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove the token
+    alert("You have been logged out.");
+    navigate("/signin"); // Redirect to the login route
+  };
+
   return (
     <div>
       <div className='container mt-5'>
-        <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-          <Link className='navbar-brand' to='/'>
-            Home
-          </Link>
-          <div className='collapse navbar-collapse'>
-            <ul className='navbar-nav'>
-              <li className='nav-item'>
-                <Link className='nav-link' to='/signin'>
-                  Sign In
-                </Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to='/signup'>
-                  Sign Up
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Navbar />
         <div>
-          <h1>Welcome to My User Authentication App</h1>
           <RoutesComponent />
         </div>
       </div>

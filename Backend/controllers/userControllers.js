@@ -1,6 +1,11 @@
 const User = require("../Models/userSchema");
 
+const crypto = require("crypto");
+
+const nodemailer = require("nodemailer");
+
 const bcrypt = require("bcrypt");
+
 const jwt = require("jsonwebtoken");
 
 
@@ -80,4 +85,47 @@ const signin = async (req, res) => {
         }
       };
 
-module.exports = { signup, signin };
+      // forgot Password controller
+      const forgotPassword = async (req, res) => {
+        const { email } = req.body;
+        try {
+          const user = await User.findOne({ email });
+          if (!user) {
+            return res.status(404).json({ message: "Email not found" });
+          }
+
+          // Generate reset token
+          const resetToken = crypto.randomBytes(32).toString("hex");
+          const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+          // Save hashed token and expiry to the user model
+          user.resetPasswordToken = hashedToken;
+          user.resetPasswordExpiry = Date.now() + 3600000; // 1-hour expiration
+          await user.save();
+
+          // Send email with reset link
+          const transporter = nodemailer.createTransport({
+            service: "Gmail", // Use your email service provider
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+          });
+
+          const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+          await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Password Reset Request",
+            text: `Click this link to reset your password: ${resetLink}`,
+          });
+
+          res.status(200).json({ message: "Password reset email sent." });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: "Server error" });
+        }
+      }
+
+module.exports = { signup, signin,forgotPassword };

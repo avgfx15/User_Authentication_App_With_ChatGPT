@@ -4,12 +4,21 @@ import Home from "./Home";
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 const RoutesComponent = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+       {/* Protected Route for Home */}
+       <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
 

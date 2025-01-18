@@ -1,13 +1,16 @@
 const express = require("express");
-const { signup, signin } = require("../controllers/userControllers");
+const { signup, signin, forgotPassword } = require("../controllers/userControllers");
 
 
-const router = express.Router();
+const userRoutes = express.Router();
 
 // POST /api/users/signup
-router.post("/signup", signup);
+userRoutes.post("/signup", signup);
 
 // POST /api/users/signin - Sign in a user
-router.post("/signin", signin);
+userRoutes.post("/signin", signin);
 
-module.exports = router;
+// POST /api/users/signin - Sign in a user
+userRoutes.post("/forgot-password", forgotPassword);
+
+module.exports = userRoutes;
